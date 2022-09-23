@@ -11,7 +11,7 @@ class Pantalla2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= ActivityPantalla2Binding.inflate(layoutInflater)
         setContentView(binding.root)
-        //a
+        //hacer bigind
     }
 
 }
