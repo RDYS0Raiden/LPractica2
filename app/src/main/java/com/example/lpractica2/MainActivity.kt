@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
     private lateinit var myHandler: Handler
 
-        private var codigo:String=""
+        private var llaveA:String=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,14 +19,13 @@ class MainActivity : AppCompatActivity() {
         myHandler=Handler(mainLooper)
         binding.btnProcesar.setOnClickListener{
             IniciarHilo()
-            GenerarCodigoRandom()
         }
     }
 private fun IniciarHilo(){
     Thread{
         try {
             for(i in 0..10){
-                Thread.sleep(500)
+                Thread.sleep(1000)
                 myHandler.post{
                     //va a comunicarse con la UI Thread
                     binding.apply{
@@ -35,6 +34,14 @@ private fun IniciarHilo(){
                     }
                 }
             }
+            runOnUiThread{
+                Thread.sleep(500)
+                binding.txtcontador.text="LISTO"
+                GenerarCodigoRandom()
+            }
+            Thread.sleep(5000)
+            PasarPantalla()
+
         }catch (e:InterruptedException){
             e.printStackTrace()
         }
@@ -42,8 +49,11 @@ private fun IniciarHilo(){
     }.start()
 }
     private fun PasarPantalla(){
+        val cod=llaveA
     val intent=Intent(this,Pantalla2::class.java)
-
+        intent.apply {
+            putExtra("llaveA",cod)
+        }
         startActivity(intent)
     }
 
@@ -58,8 +68,8 @@ private fun IniciarHilo(){
         while(numeros1==numeros2){
             numeros2=(1..9).random()
         }
-        codigo ="$letras1$letras2-$numeros1$numeros2"
-        binding.txtcodigo.text=codigo
+        llaveA ="$letras1$letras2-$numeros1$numeros2"
+        binding.txtcodigo.text=llaveA
     }
 
 
